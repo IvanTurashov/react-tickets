@@ -1,9 +1,10 @@
 import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import axios from "axios";
-import { set } from "../store/actions/ticket.js";
+import { set, clear } from "../store/actions/ticket.js";
+import TicketsList from './TicketsList.jsx';
 
-const TicketsPage = ({ setTickets, tickets }) => {
+const TicketsPage = ({ setTickets, clear, tickets }) => {
     async function getTickets(cancelToken) {
         try {
             const { data } = await axios.get('/api/tickets', { cancelToken });
@@ -23,15 +24,12 @@ const TicketsPage = ({ setTickets, tickets }) => {
 
         return () => {
             source.cancel();
+            clear();
         };
     }, []);
 
     return (
-        <ul>
-            {tickets.map(ticket => (
-                <li key={ticket.id}>{JSON.stringify(ticket)}</li>
-            ))}
-        </ul>
+        <TicketsList tickets={tickets} />
     );
 };
 
@@ -45,6 +43,9 @@ function mapDispatchToProps(dispatch) {
     return {
         setTickets: data => {
             dispatch(set(data));
+        },
+        clear: () => {
+            dispatch(clear());
         }
     }
 }
