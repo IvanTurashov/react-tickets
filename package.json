@@ -2,12 +2,10 @@
   "name": "react-tickets",
   "version": "1.0.0",
   "scripts": {
-    "clean": "rm -rf static/",
-    "preinstall": "rm -rf node_modules && npm cache clean --force",
-    "prestart": "npm run clean",
-    "start": "NODE_ENV=development webpack-dev-server --hot",
-    "server": "nodemon ./server/index.js"
-  },
+      "preinstall": "rm -rf node_modules && npm cache clean --force",
+      "client": "NODE_ENV=development webpack-dev-server --hot",
+      "server": "nodemon ./src/server/index.js"
+    },
   "dependencies": {
     "@emotion/core": "^10.0.6",
     "@emotion/styled": "^10.0.6",
