@@ -11,14 +11,14 @@ const TicketsPage = ({ setTickets, clear }) => {
     const [ request, setRequest ] = useState(false);
 
     async function getTickets(cancelToken) {
-        // setRequest(true);
+        setRequest(true);
 
         try {
             const { data } = await httpService.get('/tickets', { cancelToken });
             setTickets(data.tickets);
-            // setRequest(false);
+            setRequest(false);
         } catch (e) {
-            // setRequest(false);
+            setRequest(false);
         }
     }
 
@@ -37,7 +37,7 @@ const TicketsPage = ({ setTickets, clear }) => {
     return (
         <Fragment>
             <CurrencySwitcher />
-            <TicketsList />
+            {request ? 'Загрузка' : <TicketsList />}
             <FilterStops />
         </Fragment>
     );
