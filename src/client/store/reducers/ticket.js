@@ -1,6 +1,6 @@
 const initialState = {
     tickets: [],
-    filteredItems: null
+    filter: [0,1,2,3]
 };
 
 export default function (state = initialState, action) {
@@ -8,21 +8,33 @@ export default function (state = initialState, action) {
 
     switch (type) {
         case 'SET_TICKETS':
+            console.log(type, {
+                ...state,
+                tickets: data
+            });
+
             return {
                 ...state,
                 tickets: data
             };
 
-        case 'SET_FILTERED_TICKETS':
+        case 'SET_FILTER':
+            console.log(type, {
+                ...state,
+                filter: data
+            });
+
             return {
                 ...state,
-                filteredItems: data
+                filter: data
             };
 
         case 'CLEAR_TICKETS':
+            console.log(type, initialState);
             return initialState;
 
         default:
+            console.log(type, state);
             return state;
     }
 }
