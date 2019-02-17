@@ -11,7 +11,6 @@ const TicketList = ({ tickets, filter }) => {
 
     useEffect(() => {
         const filtered = sorted.filter(ticket => filter.includes(ticket.stops));
-        // console.log('filter change');
         setTickets(filtered);
     }, [ filter, sorted ]);
 
@@ -28,7 +27,6 @@ const TicketList = ({ tickets, filter }) => {
 };
 
 function mapStateToProps(state) {
-    console.log(state);
     return {
         tickets: state.list.tickets,
         filter: state.list.filter
