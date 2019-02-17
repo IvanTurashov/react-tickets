@@ -1,6 +1,6 @@
 const initialState = {
     tickets: [],
-    filter: [0,1,2,3]
+    filter: []
 };
 
 export default function (state = initialState, action) {
