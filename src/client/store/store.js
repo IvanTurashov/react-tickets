@@ -1,8 +1,10 @@
 import { createStore, combineReducers, compose } from 'redux';
 import ticketReducer from './reducers/ticket.js';
+import currencyReducer from './reducers/currency.js';
 
 const reducer = combineReducers({
-    list: ticketReducer
+    list: ticketReducer,
+    currency: currencyReducer
 });
 
 export default (initialState = {})  => {
