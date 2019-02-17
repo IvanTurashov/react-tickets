@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 function PriceView({ currency, rates, price }) {
     const converted = useMemo(() => {
         return rates ? (price * rates[currency]).toFixed(0) : price;
-    }, [ currency, rates ]);
+    }, [ currency, rates, price ]);
 
     return <div>{converted}</div>
 }
