@@ -1,18 +1,22 @@
-import React, { useEffect } from 'react';
+import React, { useState, useEffect, Fragment } from 'react';
 import { connect } from 'react-redux';
 import axios from "axios";
 import { set, clear } from "../store/actions/ticket.js";
 import TicketsList from './TicketsList.jsx';
+import FilterStops from './FilterStops.jsx';
 
-const TicketsPage = ({ setTickets, clear, tickets }) => {
+const TicketsPage = ({ setTickets, clear }) => {
+    const [ request, setRequest ] = useState(false);
+
     async function getTickets(cancelToken) {
+        // setRequest(true);
+
         try {
             const { data } = await axios.get('/api/tickets', { cancelToken });
             setTickets(data.tickets);
+            // setRequest(false);
         } catch (e) {
-            if (axios.isCancel(e)) {
-                console.debug('Request canceled');
-            }
+            // setRequest(false);
         }
     }
 
@@ -29,15 +33,12 @@ const TicketsPage = ({ setTickets, clear, tickets }) => {
     }, []);
 
     return (
-        <TicketsList tickets={tickets} />
+        <Fragment>
+            <TicketsList />
+            <FilterStops />
+        </Fragment>
     );
 };
-
-function mapStateToProps(state) {
-    return {
-        tickets: state.list.tickets
-    }
-}
 
 function mapDispatchToProps(dispatch) {
     return {
@@ -50,4 +51,4 @@ function mapDispatchToProps(dispatch) {
     }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(TicketsPage);
+export default connect(null, mapDispatchToProps)(TicketsPage);

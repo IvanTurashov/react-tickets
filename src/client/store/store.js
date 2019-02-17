@@ -1,4 +1,4 @@
-import { createStore, combineReducers } from 'redux';
+import { createStore, combineReducers, compose } from 'redux';
 import ticketReducer from './reducers/ticket.js';
 
 const reducer = combineReducers({

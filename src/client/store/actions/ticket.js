@@ -3,8 +3,8 @@ export const set = (data) => ({
     data
 });
 
-export const setFiltered = (data) => ({
-    type: 'SET_FILTERED_TICKETS',
+export const setFilter = (data) => ({
+    type: 'SET_FILTER',
     data
 });
 
