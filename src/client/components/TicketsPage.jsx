@@ -1,9 +1,11 @@
 import React, { useState, useEffect, Fragment } from 'react';
 import { connect } from 'react-redux';
-import axios from "axios";
-import { set, clear } from "../store/actions/ticket.js";
+import axios from 'axios';
+import httpService from "../httpService.js";
+import { setTickets, clear } from "../store/actions/ticket.js";
 import TicketsList from './TicketsList.jsx';
 import FilterStops from './FilterStops.jsx';
+import CurrencySwitcher from './currency/CurrencySwitcher.jsx';
 
 const TicketsPage = ({ setTickets, clear }) => {
     const [ request, setRequest ] = useState(false);
@@ -12,7 +14,7 @@ const TicketsPage = ({ setTickets, clear }) => {
         // setRequest(true);
 
         try {
-            const { data } = await axios.get('/api/tickets', { cancelToken });
+            const { data } = await httpService.get('/tickets', { cancelToken });
             setTickets(data.tickets);
             // setRequest(false);
         } catch (e) {
@@ -34,6 +36,7 @@ const TicketsPage = ({ setTickets, clear }) => {
 
     return (
         <Fragment>
+            <CurrencySwitcher />
             <TicketsList />
             <FilterStops />
         </Fragment>
@@ -43,7 +46,7 @@ const TicketsPage = ({ setTickets, clear }) => {
 function mapDispatchToProps(dispatch) {
     return {
         setTickets: data => {
-            dispatch(set(data));
+            dispatch(setTickets(data));
         },
         clear: () => {
             dispatch(clear());

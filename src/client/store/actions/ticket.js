@@ -1,4 +1,4 @@
-export const set = (data) => ({
+export const setTickets = (data) => ({
     type: 'SET_TICKETS',
     data
 });

@@ -1,5 +1,6 @@
 import React, { useMemo, useState, useEffect } from 'react';
 import { connect } from 'react-redux';
+import PriceView from './currency/PriceView.jsx'
 
 const TicketList = ({ tickets, filter }) => {
     const [ viewedTickets, setTickets ] = useState([]);
@@ -17,7 +18,10 @@ const TicketList = ({ tickets, filter }) => {
     return (
         <ul>
             {viewedTickets.map(ticket => (
-                <li key={ticket.id}>{JSON.stringify(ticket)}</li>
+                <li key={ticket.id}>
+                    {JSON.stringify(ticket)}
+                    <PriceView price={ticket.price} />
+                </li>
             ))}
         </ul>
     )
