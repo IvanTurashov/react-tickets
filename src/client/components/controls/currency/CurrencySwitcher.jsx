@@ -1,8 +1,10 @@
 import axios from "axios";
 import React, { useState, useEffect, useCallback } from 'react';
 import { connect } from "react-redux";
-import currenciesDefault from '../../constants/currencies.js';
-import { setCurrency, setRates, clear } from "../../store/actions/currency.js";
+import currenciesDefault from '../../../constants/currencies.js';
+import { setCurrency, setRates, clear } from "../../../store/actions/currency.js";
+import CurrencyItem from "./CurrencyItem.jsx";
+import { Currencies } from "../../../styles/controls.js";
 
 function CurrencySwitcher({ currency, setCurrency, setRates, clear }) {
     const [ request, setRequest ] = useState(false);
@@ -46,21 +48,16 @@ function CurrencySwitcher({ currency, setCurrency, setRates, clear }) {
     return request
         ? <span>Загрузка</span>
         : (
-            <ul>
+            <Currencies>
                 {currenciesDefault.values.map(value => (
-                    <li key={value}>
-                        <label>
-                            <input
-                                type="radio"
-                                name={value}
-                                checked={value === currency}
-                                onChange={handleChange}
-                            />
-                            <span>{value}</span>
-                        </label>
-                    </li>
+                    <CurrencyItem
+                        key={value}
+                        value={value}
+                        checked={value === currency}
+                        onChange={handleChange}
+                    />
                 ))}
-            </ul>
+            </Currencies>
         );
 }
 

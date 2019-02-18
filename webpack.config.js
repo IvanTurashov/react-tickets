@@ -4,7 +4,6 @@
 
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
-const HtmlTemplatePlugin = require('html-webpack-template');
 
 module.exports = {
     mode: 'development',
@@ -43,8 +42,7 @@ module.exports = {
         new HtmlWebpackPlugin({
             title: 'Aviasales | Поиск',
             filename: 'index.html',
-            template: HtmlTemplatePlugin,
-            inject: false,
+            template: './src/client/index.html',
             mobile: true,
             appMountId: 'app'
         }),

@@ -1,11 +1,11 @@
-import React, { useState, useEffect, Fragment } from 'react';
+import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
 import axios from 'axios';
 import httpService from "../httpService.js";
 import { setTickets, clear } from "../store/actions/ticket.js";
-import TicketsList from './TicketsList.jsx';
-import FilterStops from './FilterStops.jsx';
-import CurrencySwitcher from './currency/CurrencySwitcher.jsx';
+import TicketsList from './tickets/TicketsList.jsx';
+import Controls from './controls/Controls.jsx';
+import { Page, Section } from "../styles/common.js";
 
 const TicketsPage = ({ setTickets, clear }) => {
     const [ request, setRequest ] = useState(false);
@@ -14,7 +14,7 @@ const TicketsPage = ({ setTickets, clear }) => {
         setRequest(true);
 
         try {
-            const { data } = await httpService.get('/tickets', { cancelToken });
+            const { data } = await httpService.get('http://www.mocky.io/v2/5c6b0cd53300009f3c7f4e79', { cancelToken });
             setTickets(data.tickets);
             setRequest(false);
         } catch (e) {
@@ -35,11 +35,10 @@ const TicketsPage = ({ setTickets, clear }) => {
     }, []);
 
     return (
-        <Fragment>
-            <CurrencySwitcher />
-            {request ? 'Загрузка' : <TicketsList />}
-            <FilterStops />
-        </Fragment>
+        <Page>
+            <Controls />
+            <TicketsList loading={request} />
+        </Page>
     );
 };
 

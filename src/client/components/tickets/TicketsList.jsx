@@ -1,8 +1,9 @@
 import React, { useMemo, useState, useEffect } from 'react';
 import { connect } from 'react-redux';
-import PriceView from './currency/PriceView.jsx'
+import Ticket from "./Ticket.jsx";
+import {Tickets} from "../../styles/ticket.js";
 
-const TicketList = ({ tickets, filter }) => {
+const TicketList = ({ tickets, filter, loading }) => {
     const [ viewedTickets, setTickets ] = useState([]);
 
     const sorted = useMemo(() => {
@@ -15,14 +16,12 @@ const TicketList = ({ tickets, filter }) => {
     }, [ filter, sorted ]);
 
     return (
-        <ul>
+        <Tickets>
+            {loading && 'Загрузка'}
             {viewedTickets.map(ticket => (
-                <li key={ticket.id}>
-                    {JSON.stringify(ticket)}
-                    <PriceView price={ticket.price} />
-                </li>
+                <Ticket key={ticket.origin + ticket.departure_date + ticket.departure_time + ticket.destination + ticket.price} {...ticket} />
             ))}
-        </ul>
+        </Tickets>
     )
 };
 
