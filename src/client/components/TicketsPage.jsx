@@ -1,38 +1,23 @@
-import React, { useState, useEffect, Fragment } from 'react';
+import React, { useEffect, Fragment } from 'react';
 import { connect } from 'react-redux';
-import axios from 'axios';
-import httpService from "../httpService.js";
+import useGetRequest from '../hooks/useGetRequest.js';
 import { setTickets, clear } from "../store/actions/ticket.js";
 import TicketsList from './TicketsList.jsx';
 import FilterStops from './FilterStops.jsx';
 import CurrencySwitcher from './currency/CurrencySwitcher.jsx';
 
 const TicketsPage = ({ setTickets, clear }) => {
-    const [ request, setRequest ] = useState(false);
-
-    async function getTickets(cancelToken) {
-        setRequest(true);
-
-        try {
-            const { data } = await httpService.get('/tickets', { cancelToken });
-            setTickets(data.tickets);
-            setRequest(false);
-        } catch (e) {
-            setRequest(false);
-        }
-    }
+    const [ request, data ] = useGetRequest(null, 'http://www.mocky.io/v2/5c6c0a42320000ac1bbef85d');
 
     useEffect(() => {
-        const CancelToken = axios.CancelToken;
-        const source = CancelToken.source();
-
-        getTickets(source.token);
-
         return () => {
-            source.cancel();
             clear();
         };
     }, []);
+
+    useEffect(() => {
+        if (data && data.tickets) setTickets(data.tickets);
+    }, [data]);
 
     return (
         <Fragment>

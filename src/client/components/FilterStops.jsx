@@ -1,4 +1,4 @@
-import React, { useState, useCallback, useEffect, useRef } from 'react';
+import React, { useReducer, useCallback, useEffect } from 'react';
 import { connect } from 'react-redux';
 import styled from '@emotion/styled';
 import { setFilter } from "../store/actions/ticket.js";
@@ -14,64 +14,87 @@ const OnlyOne = styled.button`
   }
 `;
 
-const FilterStops = ({ setFilterValues }) => {
-    const ulElement = useRef(null);
-    const [ filter, setFilter ] = useState(stops);
+function filterReducer(state, { type, data }) {
+    switch (type) {
+        case 'UPDATE':
+            const newState = [...state];
+            const founded = newState.find(item => item.name === data.name);
+            founded.checked = data.checked;
 
-    const handleChange = useCallback(event => {
-        let { target } = event;
-        const { name, checked } = target;
+            return newState;
 
-        while (target !== ulElement.current) {
-            if (target.tagName === 'INPUT') {
-                updateFilter(name, checked);
-                return;
-            } else if (target.tagName === 'BUTTON') {
-                const inputElement = target.parentNode.firstChild;
-                updateFilter(inputElement.name, null, true);
-                return;
-            }
-
-            target = target.parentNode;
-        }
-    });
-
-    function updateFilter(name, checked, onlyOne = false) {
-        let newFilter = filter.slice();
-
-        if (onlyOne) {
-            newFilter = newFilter.map(item => {
+        case 'UPDATE_ALL': {
+            return state.map(item => {
                 return {
                     ...item,
-                    checked: item.name === name
+                    checked: data.checked
                 }
             });
-        } else if (name === 'ALL') {
-            newFilter = newFilter.map(item => ({ ...item, checked }));
-        } else {
-            const idx = newFilter.findIndex(({ name: stopName }) => stopName === name);
-            newFilter[idx].checked = checked;
         }
 
-        setFilter(newFilter);
-        setFilterValues(newFilter);
-    }
+        case 'CHECK_ONLY_ONE':
+            return state.map(item => {
+                return {
+                    ...item,
+                    checked: item.name === data.name
+                }
+            });
 
-    useEffect(() => {
-        updateFilter('ALL', true);
+        default:
+            return state;
+    }
+}
+
+const FilterStops = ({ setFilterValues }) => {
+    const [filter, dispatch] = useReducer(filterReducer, stops);
+
+    const handleChangeOne = useCallback(event => {
+        const { name, checked } = event.target;
+
+        dispatch({
+            type: 'UPDATE',
+            data: { name, checked }
+        });
     }, []);
 
+    const handleChangeAll = useCallback(event => {
+        const { checked } = event.target;
+
+        dispatch({
+            type: 'UPDATE_ALL',
+            data: { checked }
+        });
+    }, []);
+
+    const checkOnlyOne = useCallback(({ target }) => {
+        const { name } = target.parentNode.firstChild;
+
+        dispatch({
+            type: 'CHECK_ONLY_ONE',
+            data: { name }
+        });
+    }, []);
+
+    useEffect(() => {
+        dispatch({
+            type: 'UPDATE_ALL',
+            data: { checked: true }
+        });
+    }, []);
+
+    useEffect(() => {
+        setFilterValues(filter);
+    }, [filter]);
+
     return (
-        <ul
-            ref={ulElement}
-            onClick={handleChange}
-        >
+        <ul>
             <li>
                 <label>
-                    <input type="checkbox"
-                           name="ALL"
-                           checked={!filter.some(({ checked }) => !checked)}
-                           readOnly={true}
+                    <input
+                        type="checkbox"
+                        name="ALL"
+                        checked={!filter.some(({ checked }) => !checked)}
+                        onChange={handleChangeAll}
                     />
                     <span>Все</span>
                 </label>
@@ -84,10 +107,15 @@ const FilterStops = ({ setFilterValues }) => {
                             type="checkbox"
                             name={item.name}
                             checked={!!item.checked}
-                            readOnly={true}
+                            onChange={handleChangeOne}
                         />
                         <span>{item.title}</span>
-                        <OnlyOne type="button" name="ONLY_ONE">ТОЛЬКО</OnlyOne>
+                        <OnlyOne
+                            type="button"
+                            name="ONLY_ONE"
+                            onClick={checkOnlyOne}>
+                            ТОЛЬКО
+                        </OnlyOne>
                     </label>
                 </li>
             ))}
@@ -98,11 +126,7 @@ const FilterStops = ({ setFilterValues }) => {
 function mapDispatchToProps(dispatch) {
     return {
         setFilterValues: filter => {
-            const values = filter
-                .filter(({ checked }) => checked)
-                .map(({ value }) => value);
-
-            dispatch(setFilter(values));
+            dispatch(setFilter(filter));
         }
     }
 }
