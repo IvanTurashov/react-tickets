@@ -1,12 +1,14 @@
 import React, { useMemo } from 'react';
 import { connect } from 'react-redux';
+import { symbols } from "../../../constants/currencies.js";
+import { Money } from "../../../styles/ticket.js";
 
 function PriceView({ currency, rates, price }) {
     const converted = useMemo(() => {
         return rates ? (price * rates[currency]).toFixed(0) : price;
     }, [ currency, rates, price ]);
 
-    return <div>{converted}</div>
+    return <Money>{converted}&nbsp;{symbols[currency]}</Money>
 }
 
 function mapStateToProps(state) {

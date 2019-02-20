@@ -1,18 +1,9 @@
 import React, { useReducer, useCallback, useEffect } from 'react';
 import { connect } from 'react-redux';
-import styled from '@emotion/styled';
-import { setFilter } from "../store/actions/ticket.js";
-import stops from "../constants/stops.js";
-
-const Label = styled.label`
-   &:hover {}
-`;
-
-const OnlyOne = styled.button`
-  &:hover {
-    color: red;
-  }
-`;
+import { setFilter } from "../../../store/actions/ticket.js";
+import stops from "../../../constants/stops.js";
+import { Filter, OnlyOneButton } from "../../../styles/controls.js";
+import FilterItem from './FilterItem.jsx';
 
 function filterReducer(state, { type, data }) {
     switch (type) {
@@ -87,39 +78,32 @@ const FilterStops = ({ setFilterValues }) => {
     }, [filter]);
 
     return (
-        <ul>
-            <li>
-                <label>
-                    <input
-                        type="checkbox"
-                        name="ALL"
-                        checked={!filter.some(({ checked }) => !checked)}
-                        onChange={handleChangeAll}
-                    />
-                    <span>Все</span>
-                </label>
-            </li>
+        <Filter>
+            <FilterItem
+                name="ALL"
+                checked={!filter.some(({ checked }) => !checked)}
+                title="Все"
+                onChange={handleChangeAll}
+            />
 
-            {filter.map(item => (
-                <li key={item.name}>
-                    <label>
-                        <input
-                            type="checkbox"
-                            name={item.name}
-                            checked={!!item.checked}
-                            onChange={handleChangeOne}
-                        />
-                        <span>{item.title}</span>
-                        <OnlyOne
-                            type="button"
-                            name="ONLY_ONE"
-                            onClick={checkOnlyOne}>
-                            ТОЛЬКО
-                        </OnlyOne>
-                    </label>
-                </li>
+            {filter.map(({name, checked, title}) => (
+                <FilterItem
+                    key={name}
+                    name={name}
+                    checked={!!checked}
+                    onChange={handleChangeOne}
+                    title={title}
+                >
+                    <OnlyOneButton
+                        type="button"
+                        name="ONLY_ONE"
+                        onClick={checkOnlyOne}
+                    >
+                        Только
+                    </OnlyOneButton>
+                </FilterItem>
             ))}
-        </ul>
+        </Filter>
     );
 };
 
