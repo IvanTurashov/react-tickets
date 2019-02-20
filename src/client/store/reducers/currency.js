@@ -2,7 +2,7 @@ import currencies from '../../constants/currencies.js';
 
 const initialState = {
     value: currencies.base,
-    rates: undefined
+    rates: null
 };
 
 export default function (state = initialState, action) {

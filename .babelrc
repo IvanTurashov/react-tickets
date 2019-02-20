@@ -6,8 +6,6 @@
   "plugins": [
     "emotion",
     "@babel/plugin-proposal-object-rest-spread",
-    "@babel/plugin-syntax-class-properties",
-    "@babel/plugin-transform-classes",
     "@babel/plugin-transform-member-expression-literals"
   ]
 }
