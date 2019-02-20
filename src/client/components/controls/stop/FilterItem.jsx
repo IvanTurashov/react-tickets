@@ -1,7 +1,7 @@
 import React from 'react';
 import { CheckboxCustom, FilterItem, FilterItemWrapper, OnlyOneButton } from "../../../styles/controls.js";
 
-export default ({ name, checked, title, hasOnlyOne = false }) => (
+export default ({ name, checked, title, onChange, children }) => (
     <FilterItemWrapper>
         <FilterItem>
             <input
@@ -9,10 +9,11 @@ export default ({ name, checked, title, hasOnlyOne = false }) => (
                 name={name}
                 hidden={true}
                 checked={checked}
+                onChange={onChange}
             />
             <CheckboxCustom checked={checked} />
             {title}
-            {hasOnlyOne && <OnlyOneButton type="button" name="ONLY_ONE">Только</OnlyOneButton>}
+            {children}
         </FilterItem>
     </FilterItemWrapper>
 );

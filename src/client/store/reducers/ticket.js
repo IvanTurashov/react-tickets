@@ -17,6 +17,8 @@ export default function (state = initialState, action) {
             return {
                 ...state,
                 filter: data
+                    .filter(({ checked }) => checked)
+                    .map(({ value }) => value)
             };
 
         case 'CLEAR_TICKETS':

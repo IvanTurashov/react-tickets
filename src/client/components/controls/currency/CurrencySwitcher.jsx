@@ -1,49 +1,31 @@
-import axios from "axios";
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useEffect, useCallback } from 'react';
 import { connect } from "react-redux";
+import useGetRequest from '../../../hooks/useGetRequest.js'
 import currenciesDefault from '../../../constants/currencies.js';
 import { setCurrency, setRates, clear } from "../../../store/actions/currency.js";
 import CurrencyItem from "./CurrencyItem.jsx";
 import { Currencies } from "../../../styles/controls.js";
 
 function CurrencySwitcher({ currency, setCurrency, setRates, clear }) {
-    const [ request, setRequest ] = useState(false);
-
-    async function getCurrencies(cancelToken) {
-        setRequest(true);
-
-        try {
-            const { data } = await axios.get('https://api.exchangeratesapi.io/latest', {
-                params: {
-                    base: currenciesDefault.base,
-                    symbols: currenciesDefault.values.join(',')
-                },
-                cancelToken
-            });
-
-            setRates(data.rates);
-            setRequest(false);
-        } catch (e) {
-            setRequest(false);
-        }
-    }
+    const [request, data] = useGetRequest([], 'https://api.exchangeratesapi.io/latest', {
+        base: currenciesDefault.base,
+        symbols: currenciesDefault.values.join(',')
+    });
 
     const handleChange = useCallback(({ target }) => {
         const { name } = target;
         setCurrency(name);
-    });
+    }, []);
 
     useEffect(() => {
-        const CancelToken = axios.CancelToken;
-        const source = CancelToken.source();
-
-        getCurrencies(source.token);
-
         return () => {
-            source.cancel();
             clear();
         };
     }, []);
+
+    useEffect(() => {
+        if (data && data.rates) setRates(data.rates);
+    }, [data]);
 
     return request
         ? <span>Загрузка</span>
