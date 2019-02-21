@@ -57,8 +57,9 @@ const FilterStops = ({ setFilterValues }) => {
         });
     }, []);
 
-    const checkOnlyOne = useCallback(({ target }) => {
-        const { name } = target.parentNode.firstChild;
+    const checkOnlyOne = useCallback(event => {
+        event.preventDefault();
+        const { name } = event.target.parentNode.firstChild;
 
         dispatch({
             type: 'CHECK_ONLY_ONE',

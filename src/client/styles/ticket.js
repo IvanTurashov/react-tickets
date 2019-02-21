@@ -32,7 +32,7 @@ export const BuyBlock = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  flex: 1 0 200px;
+  flex: 1 1 200px;
   box-sizing: border-box;
   padding: 24px 20px;
   border: none;
