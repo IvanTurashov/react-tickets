@@ -5,6 +5,7 @@ import currenciesDefault from '../../../constants/currencies.js';
 import { setCurrency, setRates, clear } from "../../../store/actions/currency.js";
 import CurrencyItem from "./CurrencyItem.jsx";
 import { Currencies } from "../../../styles/controls.js";
+import { Loader } from "../../../styles/common.js";
 
 function CurrencySwitcher({ currency, setCurrency, setRates, clear }) {
     const [request, data] = useGetRequest([], 'https://api.exchangeratesapi.io/latest', {
@@ -28,7 +29,7 @@ function CurrencySwitcher({ currency, setCurrency, setRates, clear }) {
     }, [data]);
 
     return request
-        ? <span>Загрузка</span>
+        ? <Loader />
         : (
             <Currencies>
                 {currenciesDefault.values.map(value => (

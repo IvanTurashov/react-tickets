@@ -1,25 +1,27 @@
 import React, { useMemo, useState, useEffect } from 'react';
 import { connect } from 'react-redux';
 import Ticket from "./Ticket.jsx";
-import {Tickets} from "../../styles/ticket.js";
+import { Tickets } from "../../styles/ticket.js";
+import { Loader } from "../../styles/common.js";
 
 const TicketList = ({ tickets, filter, loading }) => {
-    const [ viewedTickets, setTickets ] = useState([]);
+    const [viewedTickets, setTickets] = useState([]);
 
     const sorted = useMemo(() => {
         return tickets.sort((prev, next) => prev.price - next.price);
-    }, [ tickets ]);
+    }, [tickets]);
 
     useEffect(() => {
         const filtered = sorted.filter(ticket => filter.includes(ticket.stops));
         setTickets(filtered);
-    }, [ filter, sorted ]);
+    }, [filter, sorted]);
 
     return (
         <Tickets>
-            {loading && 'Загрузка'}
+            {loading && <Loader />}
             {viewedTickets.map(ticket => (
-                <Ticket key={ticket.origin + ticket.departure_date + ticket.departure_time + ticket.destination + ticket.price} {...ticket} />
+                <Ticket
+                    key={ticket.origin + ticket.departure_date + ticket.departure_time + ticket.destination + ticket.price} {...ticket} />
             ))}
         </Tickets>
     )
