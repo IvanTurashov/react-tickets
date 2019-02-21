@@ -1,5 +1,6 @@
 import React from 'react';
 import PriceView from "../controls/currency/PriceView.jsx";
+import {Date, Time} from "./DateView.jsx";
 import {
     Ticket,
     BuyBlock,
@@ -8,14 +9,12 @@ import {
     BuyButton,
     InfoBlock,
     InfoSection,
-    Time,
     StopTrace,
     Stop,
     PlaneTrace,
     Plane,
     Trace,
     Place,
-    Date,
     TextBlock
 } from "../../styles/ticket.js";
 
@@ -35,7 +34,7 @@ export default ({ carrier, price, departure_time, arrival_time, stops, origin, o
 
         <InfoBlock>
             <InfoSection>
-                <Time>{departure_time}</Time>
+                <Time time={departure_time} />
                 <StopTrace>
                     {!!stops && <Stop>{stops}&nbsp;пересадки</Stop>}
                     <PlaneTrace>
@@ -43,18 +42,18 @@ export default ({ carrier, price, departure_time, arrival_time, stops, origin, o
                         <Plane src="assets/plane.png" alt="plane" />
                     </PlaneTrace>
                 </StopTrace>
-                <Time>{arrival_time}</Time>
+                <Time time={arrival_time} />
             </InfoSection>
 
             <InfoSection>
                 <TextBlock align="left">
                     <Place>{origin},&nbsp;{origin_name}</Place>
-                    <Date>{departure_date}</Date>
+                    <Date date={departure_date} />
                 </TextBlock>
 
                 <TextBlock align="right">
                     <Place>{destination},&nbsp;{destination_name}</Place>
-                    <Date>{arrival_date}</Date>
+                    <Date date={arrival_date}/>
                 </TextBlock>
             </InfoSection>
         </InfoBlock>
