@@ -28,7 +28,12 @@ export const Card = css`
 `;
 
 export const Loader = styled.div`
-  width: 100%;
   height: 64px;
   background: center no-repeat url(${LoaderGIF});
+`;
+
+export const NoData = styled.div`
+  font-size: 1.2rem;
+  color: #8b9497;
+  text-align: center;
 `;

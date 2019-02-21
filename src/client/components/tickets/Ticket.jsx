@@ -1,6 +1,7 @@
 import React from 'react';
 import PriceView from "../controls/currency/PriceView.jsx";
 import {Date, Time} from "./DateView.jsx";
+import Stops from './StopsView.jsx';
 import {
     Ticket,
     BuyBlock,
@@ -10,7 +11,6 @@ import {
     InfoBlock,
     InfoSection,
     StopTrace,
-    Stop,
     PlaneTrace,
     Plane,
     Trace,
@@ -36,7 +36,7 @@ export default ({ carrier, price, departure_time, arrival_time, stops, origin, o
             <InfoSection>
                 <Time time={departure_time} />
                 <StopTrace>
-                    {!!stops && <Stop>{stops}&nbsp;пересадки</Stop>}
+                    {!!stops && <Stops stops={stops} />}
                     <PlaneTrace>
                         <Trace />
                         <Plane src="assets/plane.png" alt="plane" />

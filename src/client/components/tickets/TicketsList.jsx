@@ -1,6 +1,7 @@
 import React, { useMemo, useState, useEffect } from 'react';
 import { connect } from 'react-redux';
 import Ticket from "./Ticket.jsx";
+import NoData from '../NoData.jsx';
 import { Tickets } from "../../styles/ticket.js";
 import { Loader } from "../../styles/common.js";
 
@@ -19,6 +20,8 @@ const TicketList = ({ tickets, filter, loading }) => {
     return (
         <Tickets>
             {loading && <Loader />}
+            {!loading && !viewedTickets.length && <NoData />}
+
             {viewedTickets.map(ticket => (
                 <Ticket
                     key={ticket.origin + ticket.departure_date + ticket.departure_time + ticket.destination + ticket.price} {...ticket} />

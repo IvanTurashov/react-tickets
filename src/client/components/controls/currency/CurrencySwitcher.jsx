@@ -1,13 +1,14 @@
-import React, { useEffect, useCallback } from 'react';
+import React, { useEffect, useCallback, Fragment } from 'react';
 import { connect } from "react-redux";
 import useGetRequest from '../../../hooks/useGetRequest.js'
 import currenciesDefault from '../../../constants/currencies.js';
 import { setCurrency, setRates, clear } from "../../../store/actions/currency.js";
 import CurrencyItem from "./CurrencyItem.jsx";
+import NoData from "../../NoData.jsx";
 import { Currencies } from "../../../styles/controls.js";
 import { Loader } from "../../../styles/common.js";
 
-function CurrencySwitcher({ currency, setCurrency, setRates, clear }) {
+function CurrencySwitcher({ currency, rates, setCurrency, setRates, clear }) {
     const [request, data] = useGetRequest([], 'https://api.exchangeratesapi.io/latest', {
         base: currenciesDefault.base,
         symbols: currenciesDefault.values.join(',')
@@ -28,24 +29,29 @@ function CurrencySwitcher({ currency, setCurrency, setRates, clear }) {
         if (data && data.rates) setRates(data.rates);
     }, [data]);
 
-    return request
-        ? <Loader />
-        : (
-            <Currencies>
-                {currenciesDefault.values.map(value => (
-                    <CurrencyItem
-                        key={value}
-                        value={value}
-                        checked={value === currency}
-                        onChange={handleChange}
-                    />
-                ))}
-            </Currencies>
-        );
+    return (
+        <Fragment>
+            {request && <Loader />}
+            {!request && !rates && <NoData />}
+            {rates && (
+                <Currencies>
+                    {Object.keys(rates).map(value => (
+                        <CurrencyItem
+                            key={value}
+                            value={value}
+                            checked={value === currency}
+                            onChange={handleChange}
+                        />
+                    ))}
+                </Currencies>
+            )}
+        </Fragment>
+    );
 }
 
 function mapStateToProps(state) {
     return {
+        rates: state.currency.rates,
         currency: state.currency.value
     }
 }
