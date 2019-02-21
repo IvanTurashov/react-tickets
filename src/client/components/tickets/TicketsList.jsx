@@ -22,9 +22,8 @@ const TicketList = ({ tickets, filter, loading }) => {
             {loading && <Loader />}
             {!loading && !viewedTickets.length && <NoData />}
 
-            {viewedTickets.map(ticket => (
-                <Ticket
-                    key={ticket.origin + ticket.departure_date + ticket.departure_time + ticket.destination + ticket.price} {...ticket} />
+            {viewedTickets.map(({id, ...ticket}) => (
+                <Ticket key={id} {...ticket} />
             ))}
         </Tickets>
     )

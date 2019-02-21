@@ -35,7 +35,7 @@ function CurrencySwitcher({ currency, rates, setCurrency, setRates, clear }) {
             {!request && !rates && <NoData />}
             {rates && (
                 <Currencies>
-                    {Object.keys(rates).map(value => (
+                    {currenciesDefault.values.map(value => (
                         <CurrencyItem
                             key={value}
                             value={value}

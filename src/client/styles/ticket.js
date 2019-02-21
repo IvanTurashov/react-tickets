@@ -145,5 +145,5 @@ export const Date = styled.div`
 `;
 
 export const TextBlock = styled.div`
-  text-align: ${({align}) => align || 'left'};
+  text-align: ${({ align }) => align || 'left'};
 `;

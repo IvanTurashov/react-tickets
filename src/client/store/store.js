@@ -7,7 +7,7 @@ const reducer = combineReducers({
     currency: currencyReducer
 });
 
-export default (initialState = {})  => {
+export default (initialState = {}) => {
     const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 
     return createStore(reducer, initialState, composeEnhancers());

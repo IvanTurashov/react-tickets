@@ -1,7 +1,7 @@
 import { css } from '@emotion/core';
 
 export const GlobalStyle = css`
-  @import url('https://fonts.googleapis.com/css?family=Open+Sans:400,500');
+  @import url('https://fonts.googleapis.com/css?family=Open+Sans:400');
   
   html {
     font-size: 12px;

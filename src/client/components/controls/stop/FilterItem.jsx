@@ -1,5 +1,5 @@
 import React from 'react';
-import { CheckboxCustom, FilterItem, FilterItemWrapper, OnlyOneButton } from "../../../styles/controls.js";
+import { CheckboxCustom, FilterItem, FilterItemWrapper } from "../../../styles/controls.js";
 
 export default ({ name, checked, title, onChange, children }) => (
     <FilterItemWrapper>

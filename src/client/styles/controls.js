@@ -14,7 +14,6 @@ export const ControlGroup = styled.div``;
 export const Title = styled.div`
   text-transform: uppercase;
   padding: 15px 15px 0;
-  font-weight: 500;
 `;
 
 // CURRENCY SWITCHER
@@ -28,7 +27,7 @@ export const CurrencyWrapper = styled.li`
   background-color: #fff;
   color: #2196f3;
   
-  ${({checked}) => checked ? css`
+  ${({ checked }) => checked ? css`
     border-color: #2196f3;
     background-color: #2196f3;
     color: #fff;
@@ -101,7 +100,7 @@ export const CheckboxCustom = styled.span`
     transition: opacity .2s ease-out;
   }
   
-  ${({checked}) => checked && css`
+  ${({ checked }) => checked && css`
     border-color: #2196f3;
     background-color: #f2fcff;
 

@@ -6,6 +6,7 @@ const getAll = async () => {
         let content = await readFile(`${__dirname}/tickets.json`);
 
         if (content) {
+            // добавляю простой id без проверки на уникальность
             content.tickets = content.tickets.map(ticket => ({ id: uuidv4(), ...ticket }));
             return content;
         }
