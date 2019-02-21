@@ -1,27 +1,27 @@
+import currencies from '../../constants/currencies.js';
+
 const initialState = {
-    tickets: [],
-    filter: []
+    value: currencies.base,
+    rates: null
 };
 
 export default function (state = initialState, action) {
     const { type, data } = action;
 
     switch (type) {
-        case 'SET_TICKETS':
+        case 'SET_CURRENCY':
             return {
                 ...state,
-                tickets: data
+                value: data
             };
 
-        case 'SET_FILTER':
+        case 'SET_RATES':
             return {
                 ...state,
-                filter: data
-                    .filter(({ checked }) => checked)
-                    .map(({ value }) => value)
+                rates: data
             };
 
-        case 'CLEAR_TICKETS':
+        case 'CLEAR_CURRENCY':
             return initialState;
 
         default:
