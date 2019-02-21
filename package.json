@@ -1,6 +1,7 @@
 {
   "name": "react-tickets",
   "version": "1.0.0",
+  "description": "Тестовое задание в Aviasales",
   "scripts": {
     "preinstall": "rm -rf node_modules && npm cache clean --force",
     "client": "NODE_ENV=development webpack-dev-server --hot",
